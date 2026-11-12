@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PhishAwareness - Document Index</title>
+<style>
+  body{margin:0;background:#f6f7fb;color:#1c2030;font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 22px 70px;}
+  h1{font-size:26px;margin:0 0 4px;}
+  .sub{color:#5b6478;margin:0 0 6px;}
+  .path{font-family:Consolas,monospace;font-size:13px;background:#eef0ff;color:#3a3f78;padding:4px 8px;border-radius:6px;display:inline-block;margin:8px 0 0;}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:1.5px;color:#7b8bff;margin:34px 0 12px;}
+  a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e8f0;border-radius:12px;padding:14px 18px;margin:10px 0;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:.12s;}
+  a.card:hover{border-color:#7b8bff;box-shadow:0 3px 10px rgba(123,139,255,.15);}
+  .t{font-size:17px;font-weight:700;}
+  .t .file{font-family:Consolas,monospace;font-size:12.5px;color:#7b8bff;font-weight:400;margin-left:8px;}
+  .d{color:#5b6478;font-size:14px;margin-top:3px;}
+  .tag{font-size:11px;font-weight:700;color:#fff;background:#7b8bff;border-radius:5px;padding:2px 7px;margin-left:6px;vertical-align:middle;}
+  .foot{color:#9aa3b8;font-size:13px;margin-top:34px;}
+</style></head><body><div class="wrap">
+  <h1>PhishAwareness - Document Index</h1>
+  <p class="sub">AI-Powered Phishing Awareness &amp; Risk-Scoring Platform · Capstone 2</p>
+  <div class="path">All files are in this folder: ...\phishawareness\docs\ - click any card to open it.</div>
+
+  <h2>&#9654; Start here</h2>
+  <a class="card" href="PhishAwareness_Executive_Summary.pdf"><div class="t">Executive Summary<span class="tag">GENERAL</span><span class="file">PhishAwareness_Executive_Summary.pdf</span></div><div class="d">3 pages, plain language, for a general / management audience. The four capabilities (measure / identify / orchestrate / remediate), why it's responsible, and status. Start here if you want the big picture.</div></a>
+
+  <h2>Awareness &amp; Remediation Portal</h2>
+  <a class="card" href="PORTAL_GUIDE.md"><div class="t">Portal - Technical Guide<span class="tag">NEW</span><span class="file">PORTAL_GUIDE.md</span></div><div class="d">The separate training/remediation service: architecture, the automatic escalation policy (onboarding to a Moderate baseline, failure to remediation, stuck to in-person + ticket), the PhishAwareness REST contract, the ticketing webhook, data model, and the live end-to-end verification results. Runs on http://localhost:8100; code is in the <b>portal\</b> folder (see portal\README.md).</div></a>
+
+  <h2>Security</h2>
+  <a class="card" href="../SECURITY.md"><div class="t">Security Review &amp; Secure-Coding Notes<span class="tag">NEW</span><span class="file">..\SECURITY.md</span></div><div class="d">The full secure-coding review: trust model, controls in place (PBKDF2 + timing-safe auth, pinned-alg JWT, tenant isolation, metadata-only ingestion, encryption at rest for every integration secret, httpOnly-cookie sessions with double-submit CSRF, least-privilege per-tenant service tokens), the hardening applied (security headers + CSP, JWT expiry enforcement, CSV formula-injection escaping, cross-tenant event guard, upload caps, HTML sanitizer, SSRF scheme checks, fail-closed-in-prod), residual/accepted risks, and a production deployment checklist. 119 tests + a clean dependency audit.</div></a>
+
+  <h2>Operator integrations</h2>
+  <a class="card" href="INTEGRATIONS_GUIDE.md"><div class="t">Directory Sync &amp; GoPhish Control<span class="tag">NEW</span><span class="file">INTEGRATIONS_GUIDE.md</span></div><div class="d">Import your roster from Microsoft Entra ID (Azure AD) <b>or</b> on-prem Active Directory (LDAP), and run the full GoPhish campaign lifecycle from the console: build target groups from the roster, launch/schedule/complete/delete campaigns (with an authorization gate + audit + no-password-capture warning). Setup steps, the boundary, and the API reference.</div></a>
+
+  <h2>For the defense - technical</h2>
+  <a class="card" href="PhishAwareness_Report.pdf"><div class="t">Technical Report<span class="tag">CORE</span><span class="file">PhishAwareness_Report.pdf</span></div><div class="d">26 pages, the full report: requirements, architecture, data model, the scoring math (formulas + pseudocode), the three ingestion paths, directory integration, GoPhish campaign control, the remediation portal, the security/threat model, testing, evaluation, appendices.</div></a>
+  <a class="card" href="PhishAwareness_Deck.pptx"><div class="t">Defense Slide Deck<span class="tag">CORE</span><span class="file">PhishAwareness_Deck.pptx</span></div><div class="d">25 slides with speaker notes, a deep technical walkthrough for presenting: the four-capability overview, the full scoring model, the three ingestion paths, GoPhish control, directory sync, the remediation portal, and a two-slide security section. Open in PowerPoint and read the notes pane for talking points.</div></a>
+  <a class="card" href="lure_tier_definitions.md"><div class="t">Lure-Tier Definitions<span class="file">lure_tier_definitions.md</span></div><div class="d">Tier 1/2/3 lure characteristics + defensive red flags, mapped to the scoring coefficients, with per-vector depth math and penetration examples.</div></a>
+
+  <h2>Visual guide</h2>
+  <a class="card" href="PhishAwareness_Walkthrough.pdf"><div class="t">A-Z Walkthrough (PDF)<span class="file">PhishAwareness_Walkthrough.pdf</span></div><div class="d">Every screen of the app, annotated with arrows and step captions. The easiest way to see how the console works.</div></a>
+
+  <h2>Diagrams</h2>
+  <a class="card" href="diagrams/architecture.png"><div class="t">Architecture &amp; Data Model<span class="file">diagrams\</span></div><div class="d">The three diagrams as PNGs (system architecture, end-to-end sequence, ERD), with editable Mermaid sources (.mmd) alongside them in the diagrams folder. The same diagrams are embedded in the report.</div></a>
+
+  <h2>Background &amp; reference</h2>
+  <a class="card" href="Capstone2_Spec.md"><div class="t">Capstone 2 Specification<span class="file">Capstone2_Spec.md</span></div><div class="d">The original project specification.</div></a>
+  <a class="card" href="GoPhish_Runbook.md"><div class="t">GoPhish Runbook<span class="file">GoPhish_Runbook.md</span></div><div class="d">How to stand up GoPhish and connect it to the platform for a live campaign.</div></a>
+  <a class="card" href="GoPhish_Integration.md"><div class="t">GoPhish Integration Notes<span class="file">GoPhish_Integration.md</span></div><div class="d">Integration details between GoPhish and the scoring platform.</div></a>
+  <a class="card" href="Evaluation.md"><div class="t">Evaluation<span class="file">Evaluation.md</span></div><div class="d">The E1/E2/E3 evaluation plan and cells to fill from human runs.</div></a>
+  <a class="card" href="Administration.md"><div class="t">Administration<span class="file">Administration.md</span></div><div class="d">Admin / operations notes, including scoring calibration.</div></a>
+
+  <div class="foot">To run the app: double-click <b>Start-PhishAwareness.bat</b> in the project root (one level up from this folder).</div>
+</div></body></html>

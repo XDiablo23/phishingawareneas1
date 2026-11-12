@@ -1,0 +1,159 @@
+erDiagram
+    TENANTS ||--o{ EMPLOYEES : has
+    TENANTS ||--o{ CAMPAIGNS : runs
+    TENANTS ||--o{ USERS : "console logins"
+    TENANTS ||--o{ COMPANY_PROFILES : "brand context"
+    TENANTS ||--o{ COMPANY_EVENTS : "context hooks"
+    TENANTS ||--o{ AUDIT_LOG : records
+    CAMPAIGNS ||--o{ CAMPAIGN_TARGETS : targets
+    EMPLOYEES ||--o{ CAMPAIGN_TARGETS : "assigned in"
+    CAMPAIGNS ||--o{ INTERACTION_EVENTS : produces
+    EMPLOYEES ||--o{ INTERACTION_EVENTS : generates
+    CAMPAIGNS ||--o{ CAMPAIGN_SCORES : "scored by"
+    EMPLOYEES ||--o{ CAMPAIGN_SCORES : "per-campaign"
+    EMPLOYEES ||--o| EMPLOYEE_SCORES : "current HRS"
+    EMPLOYEES ||..o| PORTAL_USERS : "pa_employee_id (separate portal DB)"
+    PORTAL_USERS ||--o{ ASSIGNMENTS : "assigned"
+    MODULES ||--o{ ASSIGNMENTS : "of module"
+    MODULES ||--o{ EXAM_ATTEMPTS : "exam of"
+    PORTAL_USERS ||--o{ EXAM_ATTEMPTS : "sat"
+    POLICIES ||--o{ POLICY_ACKS : "acknowledged"
+    PORTAL_USERS ||--o{ TICKET_LOG : "escalated"
+
+    TENANTS {
+      uuid id PK
+      string name
+      string webhook_secret "write-only, encrypted"
+      string ingest_token "write-only, encrypted"
+      string hrs_aggregation "avg|peak|blend"
+      float hrs_blend_alpha
+      string gophish_base_url
+      string gophish_api_key "write-only, encrypted"
+      bool gophish_verify_tls "per-tenant TLS override"
+      string entra_tenant_id "directory"
+      string ldap_url "on-prem AD"
+      string portal_service_token "write-only, encrypted"
+    }
+    EMPLOYEES {
+      uuid id PK
+      uuid tenant_id FK
+      string full_name
+      string email
+      string department
+      string job_title
+      enum seniority_level
+      string office_location "from directory"
+      float risk_floor "portal baseline"
+      bool needs_inperson_awareness "portal mark"
+    }
+    CAMPAIGNS {
+      uuid id PK
+      uuid tenant_id FK
+      string name
+      int tier "1-3"
+      enum attack_vector
+      enum status
+      string external_ref "GoPhish id"
+    }
+    CAMPAIGN_TARGETS {
+      uuid id PK
+      uuid campaign_id FK
+      uuid employee_id FK
+      enum assigned_vector
+      int effective_tier
+    }
+    INTERACTION_EVENTS {
+      uuid id PK
+      uuid campaign_id FK
+      uuid employee_id FK
+      enum event_type
+      float value "dwell secs"
+      bool breached
+      datetime occurred_at
+      json event_metadata "source only"
+    }
+    CAMPAIGN_SCORES {
+      uuid id PK
+      uuid campaign_id FK
+      uuid employee_id FK
+      float compromise_depth
+      float campaign_risk_severity
+      float campaign_risk_susceptibility
+      float penetration_ratio
+    }
+    EMPLOYEE_SCORES {
+      uuid id PK
+      uuid employee_id FK
+      float hrs
+      string hrs_band
+      float susceptibility_index
+      float org_risk
+    }
+    USERS {
+      uuid id PK
+      uuid tenant_id FK "null=super"
+      string email
+      string password_hash
+      enum role
+      string department_scope
+    }
+    COMPANY_PROFILES {
+      uuid id PK
+      uuid tenant_id FK
+      string org_name
+      string industry
+      string sending_domain
+    }
+    COMPANY_EVENTS {
+      uuid id PK
+      uuid tenant_id FK
+      string title
+    }
+    AUDIT_LOG {
+      uuid id PK
+      string tenant_id
+      string actor
+      string action
+      json detail
+    }
+    PORTAL_USERS {
+      uuid id PK
+      string pa_employee_id "map to core"
+      string email
+      float cached_hrs
+      enum state
+    }
+    MODULES {
+      uuid id PK
+      string title
+      int min_dwell_secs
+      int pass_threshold
+    }
+    ASSIGNMENTS {
+      uuid id PK
+      uuid user_id FK
+      uuid module_id FK
+      enum status
+    }
+    EXAM_ATTEMPTS {
+      uuid id PK
+      uuid user_id FK
+      int score
+      bool passed
+    }
+    POLICIES {
+      uuid id PK
+      string title
+      datetime published_at
+    }
+    POLICY_ACKS {
+      uuid id PK
+      uuid policy_id FK
+      uuid user_id FK
+    }
+    TICKET_LOG {
+      uuid id PK
+      uuid user_id FK
+      string status
+      datetime sent_at
+    }

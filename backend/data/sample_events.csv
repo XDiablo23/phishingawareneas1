@@ -1,0 +1,10 @@
+campaign_id,employee_id,event_type,value,breached,occurred_at
+camp-00,emp-000,opened,,,2027-01-05T09:14:00+00:00
+camp-00,emp-000,clicked,,,2027-01-05T09:15:00+00:00
+camp-00,emp-000,dwell,42,,2027-01-05T09:15:30+00:00
+camp-00,emp-000,field_focus,,,2027-01-05T09:16:00+00:00
+camp-00,emp-000,submitted,,true,2027-01-05T09:16:20+00:00
+camp-00,emp-001,opened,,,2027-01-05T10:02:00+00:00
+camp-00,emp-001,reported,,,2027-01-05T10:03:00+00:00
+camp-00,emp-002,opened,,,2027-01-05T11:00:00+00:00
+camp-00,emp-002,clicked,,,2027-01-05T11:00:40+00:00

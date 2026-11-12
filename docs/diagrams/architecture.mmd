@@ -1,0 +1,57 @@
+flowchart LR
+  EMP["Employee<br/>(target &amp; learner)"]
+
+  subgraph DIR["Identity source"]
+    direction TB
+    ENTRA["Azure AD / Entra ID<br/>Microsoft Graph"]
+    LDAP["On-prem AD<br/>LDAP"]
+  end
+
+  subgraph DEL["Delivery — GoPhish (separate tool, authorized)"]
+    direction TB
+    GP["GoPhish server<br/>authors lures + landing pages<br/>sends mail"]
+    LP["Landing page + beacon.js"]
+  end
+
+  subgraph CORE["PhishAwareness — measurement core &amp; console"]
+    direction TB
+    DSYNC["Directory sync<br/>metadata only"]
+    ROSTER[("Roster")]
+    WH["Signed webhook"]
+    BE["Landing beacon"]
+    SYNC["Read-only sync"]
+    CTRL["GoPhish control<br/>groups + launch · authz gate"]
+    ING[("InteractionEvent")]
+    SCORE["Scoring engine<br/>CD → tier → HRS"]
+    SC[("Scores")]
+    API["Dashboard + Manage API<br/>JWT · RBAC · tenant-scoped"]
+    UI["React console"]
+    PAPI["/portal signal API"]
+  end
+
+  subgraph PORTAL["Awareness &amp; Remediation Portal<br/>separate service + DB"]
+    direction TB
+    TRAIN["Training + exams<br/>non-skippable"]
+    ESC["Escalation engine"]
+  end
+
+  TICK["Org ticketing<br/>e.g. Jira webhook"]
+
+  ENTRA --> DSYNC
+  LDAP --> DSYNC
+  DSYNC --> ROSTER
+  CTRL -- "create + launch<br/>(content stays in GoPhish)" --> GP
+  EMP --> LP
+  GP -- "opened / clicked / submitted<br/>webhook" --> WH
+  SYNC -- "pull results" --> GP
+  LP -- "dwell / focus / typed" --> BE
+  WH --> ING
+  BE --> ING
+  SYNC --> ING
+  ROSTER --> SCORE
+  ING --> SCORE --> SC --> API --> UI
+  ROSTER --> API
+  TRAIN --- EMP
+  ESC -- "read HRS · write baseline + in-person mark" --> PAPI
+  PAPI --> SC
+  ESC -- "escalation ticket" --> TICK

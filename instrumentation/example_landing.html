@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+  EXAMPLE simulation landing page for the awareness program.
+
+  This is a teaching artefact: a plausible-looking sign-in page whose ONLY job
+  is to (a) look real enough to measure a click-through and (b) load the beacon
+  so dwell / focus / typed-without-submit are reported as metadata.
+
+  It deliberately does NOT post the form anywhere. On submit it shows the
+  standard "this was a phishing simulation" teaching moment. No credential is
+  ever transmitted or stored - not by this page, not by the beacon, not by the
+  scoring backend.
+
+  In GoPhish: paste this into the Landing Page editor, tick "Capture Submitted
+  Data" OFF (we never want the data), and let GoPhish substitute {{.Email}} /
+  {{.CampaignId}}. Host beacon.js alongside, or inline it.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in</title>
+  <script>
+    // --- Beacon configuration (GoPhish fills the template vars per recipient)
+    window.PHISH_BEACON = {
+      endpoint: "https://scoring.example.org/api/v1/integrations/beacon/events",
+      tenantId: "REPLACE_WITH_TENANT_UUID",
+      token:    "REPLACE_WITH_BEACON_INGEST_TOKEN",
+      campaignRef: "{{.CampaignId}}",
+      email:       "{{.Email}}"
+    };
+  </script>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #f3f4f6; margin: 0;
+           display: grid; place-items: center; min-height: 100vh; }
+    .card { background: #fff; padding: 32px; border-radius: 10px; width: 320px;
+            box-shadow: 0 6px 24px rgba(0,0,0,.08); }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    p.sub { color: #6b7280; font-size: 13px; margin: 0 0 20px; }
+    label { display: block; font-size: 12px; color: #374151; margin: 12px 0 4px; }
+    input { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db;
+            border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; margin-top: 18px; padding: 10px; border: 0;
+             border-radius: 6px; background: #2563eb; color: #fff;
+             font-weight: 600; cursor: pointer; }
+    .teach { display: none; text-align: center; }
+    .teach h1 { color: #b45309; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <form id="f" class="signin">
+      <h1>Sign in to continue</h1>
+      <p class="sub">Your session expired. Please re-authenticate.</p>
+      <label for="email">Work email</label>
+      <input id="email" name="email" type="email" autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" />
+      <button type="submit">Sign in</button>
+    </form>
+
+    <div class="teach" id="teach">
+      <h1>This was a phishing simulation</h1>
+      <p class="sub">No password was captured or stored. This exercise helps
+        your team practise spotting suspicious sign-in pages. Look for the
+        warning signs: unexpected urgency, an unfamiliar link, and a request to
+        re-enter credentials.</p>
+    </div>
+  </div>
+
+  <script>
+    // Never post the form. Show the teaching moment; the beacon has already
+    // reported the interaction metadata (never the field values).
+    document.getElementById("f").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.querySelector(".signin").style.display = "none";
+      document.getElementById("teach").style.display = "block";
+    });
+  </script>
+  <script src="beacon.js" defer></script>
+</body>
+</html>

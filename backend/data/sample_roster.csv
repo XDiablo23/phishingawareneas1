@@ -1,0 +1,7 @@
+full_name,email,department,job_title,manager_email,seniority_level
+Aisha Khan,aisha.khan@northwind.example,Finance,Financial Controller,,Manager
+Ben Ali,ben.ali@northwind.example,Finance,Accounts Analyst,aisha.khan@northwind.example,Staff
+Dana Reyes,dana.reyes@northwind.example,IT,Head of IT,,Director
+Sami Odeh,sami.odeh@northwind.example,IT,Systems Engineer,dana.reyes@northwind.example,Staff
+Lina Haddad,lina.haddad@northwind.example,HR,HR Business Partner,,Manager
+Omar Nasser,omar.nasser@northwind.example,Sales,VP Sales,,Exec

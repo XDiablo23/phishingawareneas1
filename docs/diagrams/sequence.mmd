@@ -1,0 +1,27 @@
+sequenceDiagram
+    actor Op as Operator
+    participant GP as GoPhish
+    actor Emp as Employee
+    participant LP as Landing + beacon.js
+    participant BE as PhishAwareness API
+    participant SE as Scoring engine
+    participant UI as Console (our UI)
+
+    Op->>UI: Launch campaign (confirm authorized)
+    UI->>GP: launch using GoPhish-authored template and landing page
+    Note over UI,GP: console orchestrates lifecycle, never authors lures
+    GP->>Emp: Phishing simulation email
+    Emp->>GP: Opens email
+    GP-->>BE: webhook: Email Opened (HMAC-signed)
+    Emp->>LP: Clicks link, lands on page
+    LP-->>BE: beacon: dwell / field_focus (metadata only)
+    GP-->>BE: webhook: Clicked Link
+    Emp->>LP: Submits the form
+    GP-->>BE: webhook: Submitted Data
+    Note over BE: credentials dropped — stores InteractionEvent metadata only
+    Op->>UI: "Sync now" (or real-time via webhook)
+    UI->>BE: pull GoPhish results
+    BE->>GP: GET /api/campaigns (read-only)
+    Op->>UI: Recompute
+    UI->>SE: recompute HRS from events
+    SE-->>UI: HRS 61.1 (High) + compromise-depth ladder

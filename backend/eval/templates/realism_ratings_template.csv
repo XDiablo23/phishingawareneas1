@@ -1,0 +1,7 @@
+rater_id,email_id,is_simulation,guessed_simulation,realism
+r1,email_01,1,0,4
+r1,email_02,0,0,5
+r1,email_03,1,1,2
+r2,email_01,1,1,3
+r2,email_02,0,1,4
+r2,email_03,1,0,4
