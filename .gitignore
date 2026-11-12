@@ -19,3 +19,4 @@ dist/
 
 # Local agent/editor session state
 .claude/
+.github/
